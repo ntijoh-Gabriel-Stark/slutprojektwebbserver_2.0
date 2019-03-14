@@ -1,0 +1,16 @@
+h2 Lärare i gruppen
+ul
+    -for user in @users
+        -if user.role == 'teacher'
+            li= user.name
+
+h2 Elever i gruppen
+ul
+    -for user in @users
+        - if @current_user.role == 'teacher' || @current_user.id == user.id
+            -if user.role == 'student'
+                a href="/user/#{user.id}"
+                    li= user.name
+        - else
+            -if user.role == 'student'
+                p= user.name

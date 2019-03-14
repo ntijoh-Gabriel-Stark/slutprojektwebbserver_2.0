@@ -1,0 +1,32 @@
+doctype html
+html
+    head
+        title Miniminimatris
+        link rel="stylesheet" href="/css/style.css"
+    body
+        - if @current_user
+            p= @current_user.name
+            .nav
+                .logout
+                    form action="/logout" method="post"
+                        button type='submit' class="logout-img" 
+                        div class="logout-text" Log Out
+                a href="/groups" Gå till grupper
+                br
+                - if @current_user.role == 'teacher'
+                    a href="/add" Lägg till folk
+        - else
+            .login
+                img src="../img/avatar_hehe.png" class="avatar"
+                h1 MiniMiniMatris
+                form action='/login' method='post'
+                    - if flash[:errors] && flash[:errors][:name]
+			            p.error= flash[:errors][:name]
+                    p För- och Efternamn
+                    input type='text' name='name' placeholder="Förnamn och efternamn"
+                    p Lösenord
+                    input type='password' name='pwd' placeholder="Lösenord"
+                    - if flash[:errors] && flash[:errors][:error] && !flash[:errors][:name]
+                        p.error= flash[:errors][:error]
+                    button type='submit' Log In
+        ==yield
