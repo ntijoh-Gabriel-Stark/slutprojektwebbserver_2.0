@@ -70,22 +70,38 @@ class App < Sinatra::Base
 	end
 	
 	post '/teacher_subject' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		Teacher_subject.input({teacher_id: params['user'], subject_id: params['subject']})
 		redirect '/'
 	end
 
 	post '/add_person' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		pwd = BCrypt::Password.create(params['pwd'])
 		Users.input({email: params['email'], name: params['name'], hashed_password: pwd, role_id: params['login_type']})
 		redirect '/'
 	end
 
 	post '/add_group' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		Groups.input({group_name: params['name']})
 		redirect '/'
 	end
 
 	post '/add_person_to_group' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		User_group.input({user_id: params['user'], group_id: params['group']})
 		redirect '/'
 	end
@@ -107,6 +123,10 @@ class App < Sinatra::Base
 	end
 
 	get '/user/:id' do
+		unless session[:type] == 'teacher' || @current_user.id == params['id'].to_i
+			halt 403
+			redirect back
+		end
 		@grades = Grading.filter({student_id: params['id']})
 		@student = Users.get({id: params['id']}) { {join: "role_name"} }
 		@subjects = Subject.all()
@@ -115,11 +135,19 @@ class App < Sinatra::Base
 	end
 
 	post '/set_grade' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		Grading.input({teacher_id: params['teacher_id'], student_id: params['student_id'], subject_id: params['subject_id'], grade: params['grade'], comment: params['comment']})
 		redirect back
 	end
 
 	post '/change_grade' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
 		Grading.update({grade: params['grade'], comment: params['comment'], id: params['id']})
 		redirect back
 	end
