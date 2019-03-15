@@ -1,15 +1,17 @@
 require 'bcrypt'
 require 'sqlite3'
+require_relative 'models/database_object'
+require_relative 'models/subject'
 
 def add_subjects
     db = SQLite3::Database.new 'school_network.db'
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'so')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'no')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'matte')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'svenska')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'engelska')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'musik')
-    db.execute('INSERT INTO subject (subject_name) VALUES(?)', 'modernaspråk')
+    Subject.input({subject: 'so'})
+    Subject.input({subject: 'no'})
+    Subject.input({subject: 'matte'})
+    Subject.input({subject: 'svenska'})
+    Subject.input({subject: 'engelska'})
+    Subject.input({subject: 'musik'})
+    Subject.input({subject: 'modernaspråk'})
 end
 
 add_subjects()
