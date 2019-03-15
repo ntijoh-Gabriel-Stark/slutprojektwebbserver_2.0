@@ -1,5 +1,6 @@
 require 'sqlite3'
 require 'pp'
+require 'bcrypt'
 
 db = SQLite3::Database.new 'school_network.db'
 
@@ -11,6 +12,10 @@ db.execute('CREATE TABLE users
                     name VARCHAR(255) NOT NULL,
                     hashed_password VARCHAR(60) NOT NULL,
                     role_id INTEGER NOT NULL)')
+hashed_password = BCrypt::Password.create('hejhej123')
+db = SQLite3::Database.new 'school_network.db'
+db.execute('INSERT INTO users (email, name, hashed_password, role_id)
+            VALUES (?, ?, ?, ?)', ['gabriel.stark@gmail.com', 'Gabriel Stark', hashed_password, 1])
 
 # Table for students
 db.execute('DROP TABLE IF EXISTS role_name')
