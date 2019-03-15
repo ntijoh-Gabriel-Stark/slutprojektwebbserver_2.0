@@ -7,7 +7,9 @@ class Subject < DatabaseObject
     db_name 'school_network.db'
 
     def initialize(db_array)
-        @id = db_array[0]
-        @subject_name = db_array[1]
+        if db_array
+            @id = db_array[0]
+            @subject_name = db_array[1]
+        end
     end
 end

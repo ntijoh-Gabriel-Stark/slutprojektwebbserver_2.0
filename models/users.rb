@@ -11,11 +11,13 @@ class Users < DatabaseObject
     db_name 'school_network.db'
 
     def initialize(db_array)
-        @id = db_array[0]
-        @email = db_array[1]
-        @name = db_array[2]
-        @role_id = db_array[4]
-        @role = db_array[-1]
+        if db_array
+            @id = db_array[0]
+            @email = db_array[1]
+            @name = db_array[2]
+            @role_id = db_array[4]
+            @role = db_array[-1]
+        end
     end
 
     def self.login(params, app, &block)

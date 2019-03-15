@@ -28,13 +28,9 @@ class App < Sinatra::Base
 			errors[:name] = "Man måste skriva in sitt namn."
 		end
 		
-		users = Users.all() { {join: "role_name"} }
-		errors[:error] = "Fel lösenord eller namn."
-		for user in users
-			if user.name == params['name']
-				errors.delete(:error)
-				break
-			end
+		user = Users.get({name: params['name']}) { {join: 'role_name'} }
+		unless user.id
+			errors[:error] = "Fel lösenord eller namn."
 		end
 
 		if errors.empty?
@@ -58,7 +54,7 @@ class App < Sinatra::Base
 		redirect '/'
 	end
 
-	get '/add' do
+	get '/add/' do
 		unless session[:type] == 'teacher'
 			halt 403
 			redirect back
@@ -106,12 +102,12 @@ class App < Sinatra::Base
 		redirect '/'
 	end
 
-	get '/browse' do
+	get '/browse/' do
 		@users = Users.all() { {join: "role_name"} }
 		slim :'browse/index'
 	end
 
-	get '/groups' do
+	get '/groups/' do
 		@groups = Groups.all()
 		@member_groups = Groups.merge({fetch: 'group_id', table: 'user_group', user_id: @current_user.id})
 		slim :'groups/index'

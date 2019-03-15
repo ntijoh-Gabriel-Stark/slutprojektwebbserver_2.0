@@ -1,11 +1,11 @@
 - if @current_user.role == 'teacher'
     h2 Alla grupper på enheten
     - for group in @groups
-        a href="groups/#{group.id}"
+        a href="/groups/#{group.id}"
             article= group.group_name
 
 - if @current_user.role == 'student'
     h2 Dina grupper
     - for group in @member_groups
-        a href="groups/#{group.id}"
+        a href="/groups/#{group.id}"
             article= group.group_name

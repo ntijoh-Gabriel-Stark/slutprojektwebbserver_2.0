@@ -11,10 +11,10 @@ html
                     form action="/logout" method="post"
                         button type='submit' class="logout-img" 
                         div class="logout-text" Log Out
-                a href="/groups" Gå till grupper
+                a href="/groups/" Gå till grupper
                 br
                 - if @current_user.role == 'teacher'
-                    a href="/add" Lägg till folk
+                    a href="/add/" Lägg till folk
         - else
             .login
                 img src="../img/avatar_hehe.png" class="avatar"

@@ -8,8 +8,10 @@ class Teacher_subject < DatabaseObject
     db_name 'school_network.db'
 
     def initialize(db_array)
-        @teacher_id = db_array[0]
-        @subject_id = db_array[1]
+        if db_array
+            @teacher_id = db_array[0]
+            @subject_id = db_array[1]
+        end
     end
 
 end
