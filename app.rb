@@ -44,7 +44,7 @@ class App < Sinatra::Base
 		if errors.any?
 			flash[:errors] = errors
 		else
-			flash[:success] = "Registration successful"
+			flash[:success] = "Login successful"
 		end
 		redirect back
 	end
