@@ -127,6 +127,7 @@ class App < Sinatra::Base
 		@student = Users.get({id: params['id']}) { {join: "role_name"} }
 		@subjects = Subject.all()
 		@users = Users.all() { {join: "role_name"} }
+		flash[:student_id] = params['id']
 		slim :'user/index'
 	end
 
@@ -135,7 +136,7 @@ class App < Sinatra::Base
 			halt 403
 			redirect back
 		end
-		Grading.input({teacher_id: params['teacher_id'], student_id: params['student_id'], subject_id: params['subject_id'], grade: params['grade'], comment: params['comment']})
+		Grading.input({teacher_id: @current_user.id, student_id: flash[:student_id], subject_id: params['subject_id'], grade: params['grade'], comment: params['comment']})
 		redirect back
 	end
 

@@ -3,12 +3,6 @@ h2= @student.name
 - if @current_user.role == 'teacher'
     p Sätt ett betyg på denna eleven
     form action='/set_grade' method='post'
-        select name='student_id'
-            option value=@student.id #{@student.name}
-        
-        select name='teacher_id'
-            option value=@current_user.id #{@current_user.name}
-
         select name='subject_id'
             - for subject in @subjects
                 option value=subject.id #{subject.subject_name} 
@@ -33,13 +27,13 @@ h2= @student.name
             break
 
     - for user in @users
-        - if user.role == 'teacher'
-            - if user.id == grade.teacher_id
-                h4 Lärare: #{user.name}
-                break
+        - if user.id == grade.teacher_id
+            h4 Lärare: #{user.name}
+            break
 
     h4 Betyg: #{grade.grade}
     h4 Kommentar: #{grade.comment}
+
     - if @current_user.id == grade.teacher_id
         h5 Ändra bedömning:
         form action='/change_grade' method='post'    
