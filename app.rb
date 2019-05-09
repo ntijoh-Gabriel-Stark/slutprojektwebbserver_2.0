@@ -136,7 +136,22 @@ class App < Sinatra::Base
 			halt 403
 			redirect back
 		end
-		Grading.input({teacher_id: @current_user.id, student_id: flash[:student_id], subject_id: params['subject_id'], grade: params['grade'], comment: params['comment']})
+		grades = Grading.filter({student_id: flash[:student_id]})
+		post = true
+		errors = {}
+		for grade in grades
+			if grade.subject_id == params['subject_id'].to_i
+				post = false
+				errors[:grade] = 'Eleven har redan betyg i detta ämne.'
+				break
+			end
+		end
+
+		if post
+			Grading.input({teacher_id: @current_user.id, student_id: flash[:student_id], subject_id: params['subject_id'], grade: params['grade'], comment: params['comment']})
+		else
+			flash[:errors] = errors
+		end
 		redirect back
 	end
 

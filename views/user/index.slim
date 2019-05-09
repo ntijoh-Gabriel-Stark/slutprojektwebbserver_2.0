@@ -2,6 +2,8 @@ h2= @student.name
 
 - if @current_user.role == 'teacher'
     p Sätt ett betyg på denna eleven
+    - if flash[:errors] && flash[:errors][:grade]
+        p.error= flash[:errors][:grade]
     form action='/set_grade' method='post'
         select name='subject_id'
             - for subject in @subjects
