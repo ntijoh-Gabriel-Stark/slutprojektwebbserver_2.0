@@ -143,6 +143,7 @@ class App < Sinatra::Base
 			if grade.subject_id == params['subject_id'].to_i
 				post = false
 				errors[:grade] = 'Eleven har redan betyg i detta ämne.'
+				errors[:subject_id] = params['subject_id'].to_i
 				break
 			end
 		end

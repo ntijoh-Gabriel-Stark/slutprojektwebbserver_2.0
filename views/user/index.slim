@@ -4,6 +4,12 @@ h2= @student.name
     p Sätt ett betyg på denna eleven
     - if flash[:errors] && flash[:errors][:grade]
         p.error= flash[:errors][:grade]
+        - for grade in @grades
+            - if @current_user.id == grade.teacher_id && flash[:errors][:subject_id] == grade.subject_id
+                p.error= "Du kan ändra betyget nedan."
+                
+                -break
+                
     form action='/set_grade' method='post'
         select name='subject_id'
             - for subject in @subjects
@@ -26,12 +32,12 @@ h2= @student.name
     - for subject in @subjects
         - if subject.id == grade.subject_id
             h3 Ämnne: #{subject.subject_name.capitalize}
-            break
+            -break
 
     - for user in @users
         - if user.id == grade.teacher_id
             h4 Lärare: #{user.name}
-            break
+            -break
 
     h4 Betyg: #{grade.grade}
     h4 Kommentar: #{grade.comment}
