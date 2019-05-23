@@ -134,8 +134,12 @@ class App < Sinatra::Base
 		end
 		@grades = Grading.filter({student_id: params['id']})
 		@student = Users.get({id: params['id']}) { {join: "role_name"} }
+		if @student.role == "teacher"
+			redirect "/user/all"
+		end
 		@subjects = Subject.all()
 		@users = Users.all() { {join: "role_name"} }
+		
 		flash[:student_id] = params['id']
 		slim :'user/index'
 	end
