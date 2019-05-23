@@ -123,7 +123,7 @@ class App < Sinatra::Base
 			halt 403
 			redirect back
 		end
-		@users = Users.all() { {join: "role_name"} }
+		@users = Users.filter({role_id: '2'}) { {join: "role_name"} }
 		slim :'/user/all'
 	end
 
