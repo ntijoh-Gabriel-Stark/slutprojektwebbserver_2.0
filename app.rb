@@ -118,6 +118,15 @@ class App < Sinatra::Base
 		slim :'groups/members'
 	end
 
+	get '/user/all' do
+		unless session[:type] == 'teacher'
+			halt 403
+			redirect back
+		end
+		@users = Users.all() { {join: "role_name"} }
+		slim :'/user/all'
+	end
+
 	get '/user/:id' do
 		unless session[:type] == 'teacher' || @current_user.id == params['id'].to_i
 			halt 403

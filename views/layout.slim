@@ -15,6 +15,7 @@ html
                 br
                 - if @current_user.role == 'teacher'
                     a href="/add/" Lägg till folk
+                    a href='/user/all' Användare på skolan
         - else
             .login
                 img src="../img/avatar_hehe.png" class="avatar"
