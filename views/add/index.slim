@@ -1,0 +1,54 @@
+
+h2 Lägg till en person
+form action='/add_person' method='post'
+	label for='name' Namn:
+	input type='text' id='name' name='name'
+	label for='email' Email:
+	input type='email' id='email' name='email'
+	label for='pwd' Lösenord:
+	input type='password' id='pwd' name='pwd'
+    
+    label for='login_type' Elev/Lärare:
+    select name='login_type'
+        option value='1' Lärare
+        option value='2' Elev
+	button type='submit' Lägg till personen
+
+h2 Lägg till en grupp
+form action='/add_group' method='post'
+	label for='name' Namn på Gruppen:
+	input type='text' id='name' name='name'
+	button type='submit' Lägg till gruppen
+
+h2 Lägg till en elev till en grupp
+form action='/add_person_to_group' method='post'
+	select name='user'
+        - for user in @users
+			-if user.role == 'student'
+				option value="#{user.id}" #{user.name}
+	select name='group'
+		- for group in @groups
+			option value="#{group.id}" #{group.group_name}
+	button type='submit' Lägg till eleven till gruppen
+
+h2 Lägg till en lärare till en grupp
+form action='/add_person_to_group' method='post'
+	select name='user'
+        - for user in @users
+			-if user.role == 'teacher'
+				option value="#{user.id}" #{user.name}
+	select name='group'
+		- for group in @groups
+			option value="#{group.id}" #{group.group_name}
+	button type='submit' Lägg till läraren till gruppen
+
+h2 Ge en lärare ett ämne
+form action='/teacher_subject' method='post'
+	select name='user'
+		- for user in @users
+			-if user.role == 'teacher'
+				option value="#{user.id}" #{user.name}
+	select name='subject'
+		- for subject in @subjects
+			option value="#{subject.id}" #{subject.subject_name}
+	button type='submit' Lägg till läraren till ett ämne
